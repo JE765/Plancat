@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plancat - Your Personal Recipe Collection</title>
+    <meta name="description" content="Save, organize, and cook your favorite recipes with AI-powered assistance. Plancat makes cooking simple and fun.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --coral: #F26B6B;
+            --coral-light: #FF8A8A;
+            --mint: #6DB89D;
+            --mint-light: #8FCAB5;
+            --cream: #FFF9F5;
+            --warm-white: #FFFDFB;
+            --text-dark: #3D3D3D;
+            --text-medium: #5A5A5A;
+            --shadow-soft: 0 4px 20px rgba(242, 107, 107, 0.15);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            background: rgba(255, 249, 245, 0.9);
+            backdrop-filter: blur(10px);
+            transition: box-shadow 0.3s ease;
+        }
+
+        header.scrolled {
+            box-shadow: var(--shadow-soft);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-medium);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--coral);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 60%;
+            height: 140%;
+            background: linear-gradient(135deg, var(--mint-light) 0%, var(--mint) 100%);
+            border-radius: 0 0 0 50%;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .hero-content h1 span {
+            color: var(--coral);
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-medium);
+            margin-bottom: 2rem;
+            max-width: 480px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--coral);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn-primary:hover {
+            background: var(--coral-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(242, 107, 107, 0.3);
+        }
+
+        .btn-primary svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-phone {
+            width: 100%;
+            max-width: 380px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-card);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--warm-white);
+        }
+
+        .section-title {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-medium);
+            font-size: 1.1rem;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--coral-light) 0%, var(--coral) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card:nth-child(even) .feature-icon {
+            background: linear-gradient(135deg, var(--mint-light) 0%, var(--mint) 100%);
+        }
+
+        .feature-card h3 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+        }
+
+        .feature-card p {
+            color: var(--text-medium);
+            font-size: 0.95rem;
+        }
+
+        /* Screenshots Section */
+        .screenshots {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--warm-white) 100%);
+            overflow: hidden;
+        }
+
+        .screenshot-carousel {
+            display: flex;
+            gap: 2rem;
+            animation: scroll 40s linear infinite;
+            width: max-content;
+        }
+
+        .screenshot-carousel:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .screenshot-item {
+            flex-shrink: 0;
+            width: 280px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-item:hover {
+            transform: scale(1.05);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 2rem;
+            background: var(--warm-white);
+            text-align: center;
+        }
+
+        .contact-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .contact-card h2 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .contact-card p {
+            color: var(--text-medium);
+            margin-bottom: 2rem;
+        }
+
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--coral);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border: 2px solid var(--coral);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-email:hover {
+            background: var(--coral);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            height: 32px;
+            margin-bottom: 1.5rem;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .hero-phone {
+                max-width: 300px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <img src="images/logo.png" alt="Plancat" class="logo">
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#screenshots">Screenshots</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Your recipes,<br><span>all in one place</span></h1>
+                <p>Save, organize, and cook your favorite recipes with AI-powered assistance. Plancat makes cooking simple and fun.</p>
+                <div class="cta-buttons">
+                    <a href="https://apps.apple.com/app/plancat-recipe-collection/id6738270937" class="btn-primary">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                        Download on App Store
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/screenshot-1.png" alt="Plancat App" class="hero-phone">
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <h2 class="section-title">Why you'll love Plancat</h2>
+        <p class="section-subtitle">Everything you need to organize your recipes and make cooking easier</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Recipe Generator</h3>
+                <p>Don't know what to cook? Tell AI your idea and get a complete recipe with ingredients and steps.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👨‍🍳</div>
+                <h3>AI Cooking Assistant</h3>
+                <p>Get real-time help while cooking. Ask about substitutions, timing, or techniques.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎲</div>
+                <h3>Just Feed Me</h3>
+                <p>Can't decide what to eat? Let Plancat randomly pick a recipe for you!</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛒</div>
+                <h3>Smart Grocery List</h3>
+                <p>Auto-generate shopping lists from your recipes. Check off items as you shop.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Recipe Collections</h3>
+                <p>Organize recipes your way. Create collections and discover what others are cooking.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⏱️</div>
+                <h3>Step-by-Step Cooking</h3>
+                <p>Follow recipes easily with swipeable steps and progress tracking.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="screenshots" id="screenshots">
+        <h2 class="section-title">See Plancat in action</h2>
+        <p class="section-subtitle">Discover how Plancat makes cooking fun and organized</p>
+        
+        <div class="screenshot-carousel">
+            <div class="screenshot-item"><img src="images/screenshot-1.png" alt="Recipe Collection"></div>
+            <div class="screenshot-item"><img src="images/screenshot-2.png" alt="Step by Step"></div>
+            <div class="screenshot-item"><img src="images/screenshot-3.png" alt="AI Assistant"></div>
+            <div class="screenshot-item"><img src="images/screenshot-4.png" alt="AI Recipe Generator"></div>
+            <div class="screenshot-item"><img src="images/screenshot-5.png" alt="Save Recipes"></div>
+            <div class="screenshot-item"><img src="images/screenshot-6.png" alt="Grocery List"></div>
+            <div class="screenshot-item"><img src="images/screenshot-7.png" alt="Collections"></div>
+            <div class="screenshot-item"><img src="images/screenshot-8.png" alt="Just Feed Me"></div>
+            <!-- Duplicate for seamless loop -->
+            <div class="screenshot-item"><img src="images/screenshot-1.png" alt="Recipe Collection"></div>
+            <div class="screenshot-item"><img src="images/screenshot-2.png" alt="Step by Step"></div>
+            <div class="screenshot-item"><img src="images/screenshot-3.png" alt="AI Assistant"></div>
+            <div class="screenshot-item"><img src="images/screenshot-4.png" alt="AI Recipe Generator"></div>
+            <div class="screenshot-item"><img src="images/screenshot-5.png" alt="Save Recipes"></div>
+            <div class="screenshot-item"><img src="images/screenshot-6.png" alt="Grocery List"></div>
+            <div class="screenshot-item"><img src="images/screenshot-7.png" alt="Collections"></div>
+            <div class="screenshot-item"><img src="images/screenshot-8.png" alt="Just Feed Me"></div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="contact-card">
+            <h2>Questions or Feedback?</h2>
+            <p>We'd love to hear from you! Whether you have a question, suggestion, or just want to say hi.</p>
+            <a href="mailto:contact@plancat.app" class="contact-email">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                contact@plancat.app
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <img src="images/logo.png" alt="Plancat" class="footer-logo">
+        <div class="footer-links">
+            <a href="https://apps.apple.com/app/plancat-recipe-collection/id6738270937">App Store</a>
+            <a href="mailto:contact@plancat.app">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+        <p class="copyright">© 2024 Plancat. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
